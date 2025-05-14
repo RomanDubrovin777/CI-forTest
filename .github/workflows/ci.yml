@@ -1,17 +1,13 @@
-name: CI
+name: Main CI Workflow
+
 on:
   push:
   pull_request:
+
 jobs:
-  lint:
-    uses: ./.github/workflows/reusable-quality.yml
+  quality-check:
+    uses: RomanDubrovin777/CI-forTest/.github/workflows/reusable-quality.yml@main
     with:
       python-version: '3.10'
       action: 'lint'
-
-  test:
-    uses: ./.github/workflows/reusable-quality.yml
-    with:
-      python-version: '3.10'
-      action: 'test'
 

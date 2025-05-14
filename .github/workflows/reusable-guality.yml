@@ -1,4 +1,4 @@
-name: Reusable Quality Check
+name: Reusable Quality Workflow
 
 on:
   workflow_call:
@@ -11,28 +11,32 @@ on:
         type: string
 
 jobs:
-  quality:
+  lint:
+    if: ${{ inputs.action == 'lint' }}
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python ${{ inputs.python-version }}
-        uses: actions/setup-python@v4
+      - uses: actions/setup-python@v4
         with:
           python-version: ${{ inputs.python-version }}
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install flake8 pytest
+      - name: Run flake8
+        run: |
+          flake8 src tests
 
-      - name: Run Flake8 (Lint)
-        if: ${{ inputs.action == 'lint' }}
-        run: flake8 src tests
-
-      - name: Run Tests
-        if: ${{ inputs.action == 'test' }}
-        run: PYTHONPATH=src pytest
+  test:
+    if: ${{ inputs.action == 'test' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Run tests
+        run: |
+          PYTHONPATH=src pytest
