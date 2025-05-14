@@ -14,7 +14,8 @@ jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4  # חשוב לבצע checkout של הקוד
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -36,12 +37,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: quality
     steps:
-      - uses: actions/checkout@v4
-      
+      - name: Checkout code
+        uses: actions/checkout@v4  # חשוב לבצע checkout של הקוד
+
       - name: Build Docker Image
         run: docker build -t python-app:${{ github.sha }} .
 
-      - name: list docker images
+      - name: List Docker Images
         run: docker images
-
 
