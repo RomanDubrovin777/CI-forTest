@@ -2,18 +2,18 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
 
 jobs:
   lint-python-3-10:
-    uses: .github/workflows/reusable-quality.yml  # שים לב שאין ./ לפניה
+    uses: .github/workflows/reusable-quality.yml  # אין צורך בגרסה כאן
     with:
       python-version: '3.10'
       action: 'lint'
 
   test-python-3-9:
-    uses: .github/workflows/reusable-quality.yml  # שים לב שאין ./ לפניה
+    uses: .github/workflows/reusable-quality.yml  # אין צורך בגרסה כאן
     with:
       python-version: '3.9'
       action: 'test'
